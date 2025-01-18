@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  ipinfo-script:
+    build:
+      context: .
+    container_name: ipinfo_script
+    working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      - ./input_folder:/app/input_folder
+      - ./output_folder:/app/output_folder
+    command: ["/app/input_folder", "/app/output_folder"]

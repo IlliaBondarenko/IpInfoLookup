@@ -1,0 +1,29 @@
+# Python compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+
+# Docker-related files
+*.log
+docker-compose.override.yml
+output_folder/*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files (contains sensitive API keys)
+.env
+
+# Ignore input/output data
+input_folder/
+output_folder/
+
+# Ignore IDE-specific files
+.idea/
+.vscode/
