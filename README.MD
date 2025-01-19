@@ -2,7 +2,7 @@
 
 # IPInfo Geolocation Lookup
 
-This project uses the IPInfo API to perform geolocation lookups for IP addresses. It reads CSV files containing IP addresses from a folder, queries the IPInfo API for each IP, and saves the results in JSON and CSV formats.
+This project uses the IPInfo API to perform geolocation lookups for IP addresses. It reads CSV files containing IP addresses from a folder, queries the IPInfo API for each IP, and saves the results in CSV format.
 
 ## Getting Started
 
@@ -26,12 +26,11 @@ This project uses the IPInfo API to perform geolocation lookups for IP addresses
 
 ---
 
-### Step 2: Add Your API Token to `.env`
+### Step 2: Add Your API Token to `Dockerfile`
 
-1. In the project directory, create a `.env` file if it doesn't already exist.
-2. Add your IPInfo API token to the `.env` file as follows:
+1. Open Dockerfile and find the line:
    ```
-   IPINFO_API_TOKEN=your_api_token_here
+   ENV IPINFO_API_TOKEN=your_api_token_here
    ```
    Replace `your_api_token_here` with the token you copied from the IPInfo dashboard.
 
@@ -50,12 +49,14 @@ This project uses the IPInfo API to perform geolocation lookups for IP addresses
    This will build the Docker image, installing all necessary dependencies and start the container, which will:
    - Scan all `.csv` files in the `input_folder/`
    - Perform IP lookups using the IPInfo API
-   - Save the results in the `output_folder/` as JSON files
+   - Save the results in the `output_folder/` as CSV files
+   - Save checkd IPs in the `checked_ips.csv`
+   - Stop the container
 
-3. **Stop the Container**:
-   You can stop the container by pressing `Ctrl + C` in the terminal or running:
+3. **Runing the Docker Container Again**:
+   After the first run use the command to run the container again:
    ```bash
-   docker-compose down
+   docker-compose up
    ```
 
 ---
@@ -64,25 +65,25 @@ This project uses the IPInfo API to perform geolocation lookups for IP addresses
 
 ```
 ipinfo-docker/
-├── ipinfo_lookup.py        # Python script for IP lookup
-├── requirements.txt        # Python dependencies
-├── Dockerfile              # Docker image configuration
-├── docker-compose.yml      # Docker Compose configuration
-├── .env                    # Contains your IPInfo API token
 ├── input_folder/           # Folder with input CSV files (IP addresses)
-├── output_folder/          # Folder for saving output JSON results
-└── .gitignore              # Files to ignore in Git
+├── output_folder/          # Folder for saving output CSV results
+├── .gitignore              # Files to ignore in Git
+├── checked_ips.csv         # File to store previosly checked ips
+├── docker-compose.yml      # Docker Compose configuration
+├── Dockerfile              # Docker image configuration
+├── ipinfo_lookup.py        # Python script for IP lookup
+└── requirements.txt        # Python dependencies
 ```
 
 ### Folder Details
 
 - **input_folder/**: Place your CSV files containing IP addresses here. Each CSV file should have IPs in the first column.
-- **output_folder/**: This is where the JSON results will be saved. Each input CSV file will have a corresponding JSON file saved here.
-- **.gitignore**: Ensures sensitive files like `.env` and output data are not tracked by Git.
+- **output_folder/**: This is where the CSV results will be saved. Each input CSV file will have a corresponding CSV file saved here.
+- **.gitignore**: Ensures sensitive files like output data and input data are not tracked by Git.
 
 ---
 
-### Example CSV Format
+### Example CSV Input File Format
 
 CSV files should have IP addresses in the first column. An example `ips.csv` might look like this:
 
@@ -96,7 +97,7 @@ IP Address
 
 ### Troubleshooting
 
-- Ensure that your `.env` file is correctly populated with a valid IPInfo API token.
+- Ensure that your Dockerfile is updated with a valid IPInfo API token.
 - If Docker fails to build, try running `docker-compose build --no-cache` to force a clean rebuild.
 - If you're encountering rate limits, you might need to upgrade your IPInfo plan.
 

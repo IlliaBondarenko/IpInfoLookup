@@ -1,17 +1,20 @@
-# Use an official Python runtime as a parent image
+# Use a lightweight Python image as the base image
 FROM python:3.9-slim
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy requirements and install dependencies
-COPY requirements.txt .
+# Copy the current directory contents into the container
+COPY . /app
+
+# Install the required dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the Python script and input/output folders
-COPY ipinfo_lookup.py .
-COPY input_folder /app/input_folder
-COPY output_folder /app/output_folder
+# Set environment variables (you can also add these in your docker-compose.yml)
+ENV IPINFO_API_TOKEN=your_api_token_here
 
-# Set the default command to run the script
-ENTRYPOINT ["python", "ipinfo_lookup.py"]
+# Make sure the script has execute permissions (if needed)
+RUN chmod +x ipinfo_lookup.py
+
+# Command to run the script (adjust for your needs)
+CMD ["python", "ipinfo_lookup.py", "/input_folder", "/output_folder", "checked_ips.csv"]
