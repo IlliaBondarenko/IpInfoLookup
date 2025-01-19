@@ -19,14 +19,6 @@ Thumbs.db
 # Ignore environment files (contains sensitive API keys)
 .env
 
-# Ignore files inside input/output folders, but keep the folders
-input_folder/*
-output_folder/*
-
-# Un-ignore the .gitkeep file
-!input_folder/.gitkeep
-!output_folder/.gitkeep
-
 # Ignore checked_ips.csv
 checked_ips.csv
 
