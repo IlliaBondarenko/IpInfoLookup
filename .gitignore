@@ -20,9 +20,10 @@ Thumbs.db
 # Ignore environment files (contains sensitive API keys)
 .env
 
-# Ignore input/output data
+# Ignore input/output data/persistent storage
 input_folder/
 output_folder/
+checked_ips.csv
 
 # Ignore IDE-specific files
 .idea/
