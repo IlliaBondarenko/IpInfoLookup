@@ -5,6 +5,4 @@ services:
       - ./input_folder:/input_folder
       - ./output_folder:/output_folder
       - ./checked_ips.csv:/app/checked_ips.csv
-    environment:
-      IPINFO_API_TOKEN: ${IPINFO_API_TOKEN}
     restart: 'no'
