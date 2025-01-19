@@ -1,12 +1,8 @@
-Here's a simple `README.md` file for your GitHub project, which includes instructions on how to get an access token from `ipinfo.io`, add it to the `.env` file, and run the Docker container:
-
----
-
 ### **`README.md`**
 
 # IPInfo Geolocation Lookup
 
-This project uses the IPInfo API to perform geolocation lookups for IP addresses. It reads CSV files containing IP addresses from a folder, queries the IPInfo API for each IP, and saves the results in JSON format.
+This project uses the IPInfo API to perform geolocation lookups for IP addresses. It reads CSV files containing IP addresses from a folder, queries the IPInfo API for each IP, and saves the results in JSON and CSV formats.
 
 ## Getting Started
 
