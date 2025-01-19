@@ -23,9 +23,9 @@ Thumbs.db
 input_folder/*
 output_folder/*
 
-# Un-ignore the folders themselves (to keep them)
-!input_folder/
-!output_folder/
+# Un-ignore the .gitkeep file
+!input_folder/.gitkeep
+!output_folder/.gitkeep
 
 # Ignore checked_ips.csv
 checked_ips.csv
