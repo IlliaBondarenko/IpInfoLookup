@@ -11,7 +11,6 @@ venv/
 # Docker-related files
 *.log
 docker-compose.override.yml
-output_folder/*
 
 # System files
 .DS_Store
@@ -21,8 +20,8 @@ Thumbs.db
 .env
 
 # Ignore input/output data/persistent storage
-input_folder/
-output_folder/
+input_folder/*
+output_folder/*
 checked_ips.csv
 
 # Ignore IDE-specific files
