@@ -1,6 +1,23 @@
-# IPInfo Geolocation Lookup (Streamlit)
+# IPInfo Geolocation Lookup FastAPI & Streamlit Integration
 
-This project provides a user-friendly interface to perform IP geolocation lookups using the [IPInfo API](https://ipinfo.io). The app, built with Streamlit, allows users to upload a CSV file containing IP addresses, filters out duplicates and previously checked IPs, and fetches geolocation data. Results can be downloaded as a CSV file.
+This project provides a user-friendly interface to perform IP geolocation lookups using the [IPInfo API](https://ipinfo.io). The app, built with Streamlit, allows users to upload a CSV file containing IP addresses, filters out duplicates and previously checked IPs, and fetches geolocation data. Results can be downloaded as a CSV file. Additionally, a FastAPI backend is integrated to allow IP and MAC address lookups through API endpoints.
+
+---
+
+## Features
+
+- **FastAPI**:
+  - Provides two POST endpoints for IP and MAC address lookups.
+  - `/ip/{ip}`: Fetches geolocation data for a given IP address.
+  - `/oui/{mac_address}`: Fetches manufacturer information for a given MAC address.
+
+- **Streamlit**:
+  - Allows users to upload a CSV file containing IP addresses.
+  - Filters out duplicates and previously checked IPs stored in `checked_ips.csv`.
+  - Fetches geolocation data for new IPs and displays the results in an easy-to-use interface.
+  - Allows users to download the results as a CSV file.
+
+- Both **FastAPI** and **Streamlit** run concurrently in separate threads.
 
 ---
 
@@ -55,25 +72,21 @@ This project provides a user-friendly interface to perform IP geolocation lookup
    - The app removes duplicates and skips IPs already stored in `checked_ips.csv`.
    - It fetches geolocation data for new IPs and allows you to download the results.
 
+4. **Access the FastAPI Endpoints**:
+   - The FastAPI app runs on `http://localhost:8000`.
+   - You can access the following endpoints:
+     - **POST /ip/{ip}**: Fetches IP information.
+     - **POST /oui/{mac_address}**: Fetches manufacturer information from the MAC address.
+
 ---
-
-### Folder Structure
-
-```
-ipinfo-streamlit/
-├── .gitignore              # Files to ignore in Git
-├── checked_ips.csv         # Persistent file storing previously checked IPs
-├── docker-compose.yml      # Docker Compose configuration
-├── Dockerfile              # Docker image configuration
-├── ipinfo_lookup.py        # Streamlit-based IP lookup script
-└── requirements.txt        # Python dependencies
-```
 
 ### File Details
 
 - **`checked_ips.csv`**: Tracks previously processed IPs, preventing duplicate API calls across sessions.
+- **`checked_mac.csv`**: Tracks previously processed Mac addresses.
 - **`docker-compose.yml`**: Configures and runs the Docker container, including API token setup.
 - **`ipinfo_lookup.py`**: Main script that runs the Streamlit app.
+- **`app.py`**: Contains the FastAPI app that runs alongside Streamlit to provide additional IP and MAC address lookup functionality.
 
 ---
 
@@ -88,13 +101,3 @@ IP
 ```
 
 ---
-
-### Troubleshooting
-
-- **Missing API Token**: Ensure `docker-compose.yml` has a valid IPInfo API token.
-- **Empty File Error**: Make sure the uploaded CSV file is not empty and formatted correctly.
-- **Rate Limits**: If you exceed IPInfo's rate limits, consider upgrading your IPInfo plan.
-
----
-
-This `README.md` outlines how to run the IPInfo lookup application with Streamlit and Docker, ensuring an efficient, user-friendly experience for IP geolocation lookups.

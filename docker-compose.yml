@@ -4,11 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
+      - "8000:8000"
       - "8501:8501"
     environment:
-      IPINFO_API_TOKEN: your_api_token_here
       CHECKED_IPS_FILE: checked_ips.csv
-      STREAMLIT_SERVER_PORT: 8501
-      STREAMLIT_SERVER_ADDRESS: 0.0.0.0
+      CHECKED_MAC_FILE: checked_mac.csv
     volumes:
       - .:/app
