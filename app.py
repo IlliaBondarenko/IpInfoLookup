@@ -2,14 +2,14 @@ import threading
 import os
 from fastapi import FastAPI, HTTPException
 import uvicorn
-from ipinfo_lookup import get_ipinfo_api,get_ouiinfo_api
+from ipinfo_lookup import get_ipinfo_api,get_macinfo_api
 
 # Define FastAPI app
 app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"message": "Hello from FastAPI"}
+    return {"message": "FastAPI is running!"}
 
 @app.post("/ip/{ip}")
 def get_ipinfo(ip: str):
@@ -20,7 +20,7 @@ def get_ipinfo(ip: str):
 
 @app.post("/oui/{mac_address}")
 def get_ouiinfo(mac_address: str):  
-    oui_info = get_ouiinfo_api(mac_address)
+    oui_info = get_macinfo_api(mac_address)
     if "error" in oui_info:
         raise HTTPException(status_code=400, detail=mac_address["error"])
     return oui_info
