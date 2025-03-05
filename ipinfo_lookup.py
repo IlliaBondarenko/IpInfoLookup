@@ -2,6 +2,8 @@ import os
 import requests
 import streamlit as st
 import pandas as pd
+from txt_to_mac import process_txts
+import re
 
 API_TOKEN = os.getenv("IPINFO_API_TOKEN")
 CHECKED_IPS_FILE = os.getenv("CHECKED_IPS_FILE")
@@ -60,17 +62,31 @@ def fetch_ipinfo_data(ip_address):
         return {"error": str(e)}
 
 def fetch_uoimac_data(mac_address):
-    mac_prefix = str(mac_address).replace(":", "")[:6].upper()
-    with open('MAC-by-Vendor.txt', 'r', encoding='utf-8') as file:
+    mac_prefix = str(mac_address).replace(":", "").replace(".", "")[:6].upper()
+    hex_line_pattern = re.compile(r"^([\dA-Fa-f]{2}(?:-[\dA-Fa-f]{2}){2})\s+\(hex\)\s+(.*)$")
+    with open('standards-oui.ieee.org.txt', 'r', encoding='utf-8') as file:
         for line in file:
-            parts = line.split("-")
-            if len(parts) >= 3:
-                oui = parts[1].replace(":", "").strip().upper()
-                manufacturer = parts[2].strip()
+            match = hex_line_pattern.match(line)
+            if match:
+                oui_raw = match.group(1)
+                manufacturer = match.group(2).strip()
+                oui = oui_raw.replace("-", "").upper()  
                 if oui == mac_prefix:
+                    address = []
+                    for addr_line in file:
+                        if addr_line.strip() == "":
+                            break  
+                        if addr_line.startswith(" "):
+                            address.append(addr_line.strip())
+                        else:
+                            break
                     save_checked_macs([mac_address])
-                    return {"MAC": manufacturer}
-    return {"MAC": "N/A"}
+                    return {
+                        "MAC": manufacturer,
+                        "Address": " ".join(address) if address else "N/A"
+                    }
+
+    return {"MAC": "N/A", "Address": "N/A"}
 
 def load_checked_ips():
     """Load previously checked IPs from the persistent file."""
@@ -112,6 +128,8 @@ def save_checked_macs(checked_macs):
      
 def main():
     st.title("IPInfo.io Geolocation Lookup")
+    if st.button("process_txts"):
+        process_txts()
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
     if uploaded_file is not None:
         try:
